@@ -1,0 +1,3 @@
+type FindOne = {
+    id: number;
+};

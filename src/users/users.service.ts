@@ -1,42 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersRepository } from 'src/prisma/repositories/users.repository';
+import { CreateUserDto } from './common/dtos/create.user.dto';
 
 @Injectable()
 export class UsersService {
-    constructor(
-        private prisma: PrismaService,
-        private readonly usersRepository: UsersRepository,
-    ) {}
+    constructor(private readonly usersRepository: UsersRepository) {}
 
     private async hashPassword(password: string): Promise<string> {
         const salt = await bcrypt.genSalt(10);
         return bcrypt.hash(password, salt);
     }
 
-    async create(data: { email: string; password: string }) {
-        const { email, password } = data;
+    async create(createUserDto: CreateUserDto) {
+        const { email, password } = createUserDto;
 
         const hashedPassword = await this.hashPassword(password);
 
-        return await this.prisma.user.create({
-            data: { email: email, password: hashedPassword },
-        });
+        const createData = { email: email, password: hashedPassword };
+        return await this.usersRepository.create(createData);
     }
 
     async findByEmail(email: string) {
-        const user = await this.prisma.user.findUnique({ where: { email } });
+        const data = { id: null, email: email };
+        // const user = await this.prisma.user.findUnique({ where: { email } });
+        const user = await this.usersRepository.findOne(data);
         return user;
     }
 
     async findOne(id: number) {
-        const user = await this.prisma.user.findUnique({ where: { id } });
+        const data = { id: id, email: null };
+        // const user = await this.prisma.user.findUnique({ where: { id } });
+        const user = await this.usersRepository.findOne(data);
 
         return user;
     }
 
     async findAll() {
-        return await this.prisma.user.findMany();
+        return await this.usersRepository.findAll();
     }
 }
