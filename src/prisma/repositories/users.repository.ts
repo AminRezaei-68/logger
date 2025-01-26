@@ -10,7 +10,7 @@ export class UsersRepository {
         return this.prismaService.user.create({ data });
     }
 
-    async findOne(data: FindUserType) {
+    async findOne(data: FindUser) {
         console.log('in user repository:', data);
         const { id, email } = data;
         console.log('id in user repository:', id);
