@@ -10,14 +10,14 @@ export class LoggerService {
     @InjectModel(Logger.name) private readonly loggerModel: Model<Logger>,
   ) {}
 
-  async saveLog(data: { email: string; action: string }) {
+  async saveLog(data: { email: string; action: string }): Promise<void> {
     const newLog = new this.loggerModel({ ...data });
 
     const savedLog = await newLog.save();
     console.log(`The user with email ${savedLog.email} ${savedLog.action}.`);
   }
 
-  async findAll(paginationQueryDto: PaginationQueryDto) {
+  async findAll(paginationQueryDto: PaginationQueryDto): Promise<any> {
     const { limit = 10, offset = 0 } = paginationQueryDto;
     return this.loggerModel.find().skip(offset).limit(limit).exec();
   }

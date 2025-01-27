@@ -1,11 +1,12 @@
+/* eslint-disable prettier/prettier */
 import { IsOptional, IsPositive } from 'class-validator';
 
 export class PaginationQueryDto {
-    @IsPositive()
-    @IsOptional()
-    limit: number
+  @IsPositive()
+  @IsOptional()
+  limit: number;
 
-    @IsPositive()
-    @IsOptional()
-    offset: number
+  @IsPositive()
+  @IsOptional()
+  offset: number;
 }
