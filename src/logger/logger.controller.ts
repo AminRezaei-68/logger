@@ -15,7 +15,9 @@ export class LoggerController {
   }
 
   @Get()
-  async findAll(paginationQueryDto: PaginationQueryDto): Promise<any> {
+  async findAll(
+    paginationQueryDto: PaginationQueryDto,
+  ): Promise<LoggerResponse[]> {
     return this.loggerService.findAll(paginationQueryDto);
   }
 }

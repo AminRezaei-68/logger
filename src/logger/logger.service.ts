@@ -17,7 +17,9 @@ export class LoggerService {
     console.log(`The user with email ${savedLog.email} ${savedLog.action}.`);
   }
 
-  async findAll(paginationQueryDto: PaginationQueryDto): Promise<any> {
+  async findAll(
+    paginationQueryDto: PaginationQueryDto,
+  ): Promise<LoggerResponse[]> {
     const { limit = 10, offset = 0 } = paginationQueryDto;
     return this.loggerModel.find().skip(offset).limit(limit).exec();
   }
